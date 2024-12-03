@@ -1,0 +1,74 @@
+.container {
+  height: 19rem;
+  width: 80%;
+  background-color: var(--background);
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid var(--accent);
+  margin: 2rem auto;
+  padding: 0rem 2rem 6rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--primary);
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+label {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-right: 0.5rem;
+}
+
+.dropdown {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background-color: white;
+  color: var(--text-dark);
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: var(--primary);
+  text-align: center;
+  margin: 2rem 0;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
