@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import './App.css';
 import {GatewayApiClient, RadixNetwork} from "@radixdlt/babylon-gateway-api-sdk";
-import {TxsByMinutes} from "./components/charts/txsByMinutes";
+import {TxsByMinutes} from "./components/charts/minutes/txsByMinutes";
 import logo from "./radix_logo.png";
 import {TxsBySeconds} from "./components/charts/seconds/txsBySeconds";
+import {TxsByHours} from "./components/charts/hours/txsByHours";
 
 function App() {
   // Initialisation du client API Gateway
@@ -40,7 +41,8 @@ function App() {
         </div>
         {
           interval === "seconds" ?
-            <TxsBySeconds gatewayApi={gatewayApi}/> : <TxsByMinutes gatewayApi={gatewayApi}/>
+            <TxsBySeconds gatewayApi={gatewayApi}/> : interval === "minutes" ? <TxsByMinutes gatewayApi={gatewayApi}/> :
+              <TxsByHours gatewayApi={gatewayApi}/>
         }
       </div>
 

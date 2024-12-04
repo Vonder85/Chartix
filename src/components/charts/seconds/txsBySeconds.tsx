@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {CommittedTransactionInfo, GatewayApiClient} from "@radixdlt/babylon-gateway-api-sdk";
 import {Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
-import styles from "../txsByMinutes.module.scss";
+import styles from "../minutes/txsByMinutes.module.scss";
 
 interface TxsBySecondsProps {
   gatewayApi: GatewayApiClient
