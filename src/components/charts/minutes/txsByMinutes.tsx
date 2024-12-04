@@ -74,7 +74,7 @@ export const TxsByMinutes = ({gatewayApi}: TxsByMinutesProps) => {
         <AreaChart data={data} margin={{top: 10, right: 30, left: 0, bottom: 20}}
         >
           <CartesianGrid strokeDasharray="3 3"/>
-          <XAxis dataKey="time" label={{value: 'Minutes', position: 'insideBottomRight', offset: -5}}/>
+          <XAxis dataKey="time" label={{value: 'Minutes', position: 'insideBottomRight', offset: -30}}/>
           <YAxis label={{value: 'Transactions', angle: -90, position: 'insideLeft'}}/>
           <Tooltip/>
           <Area type="monotone" dataKey="count" stroke="#8884d8" activeDot={{r: 8}}/>
