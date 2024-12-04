@@ -27,6 +27,7 @@ export const TxsBySeconds = ({gatewayApi}: TxsBySecondsProps) => {
   };
 
   // Fonction pour traiter les transactions et éviter les doublons
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const processTransactions = (transactions: CommittedTransactionInfo[]) => {
     const updatedTransactionsBySecond = {...transactionsBySecond};
     const newProcessedHashes = new Set(processedHashes); // Copie pour mettre à jour l'historique
@@ -83,7 +84,7 @@ export const TxsBySeconds = ({gatewayApi}: TxsBySecondsProps) => {
     }, 5000);
 
     return () => clearInterval(interval); // Nettoyer l'intervalle à la fin du composant
-  }, [transactionsBySecond, processedHashes]);
+  }, [transactionsBySecond, processedHashes, data.length, gatewayApi.stream, processTransactions]);
 
   // Affichage du graphique
   return (

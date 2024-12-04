@@ -15,6 +15,7 @@ export const TxsByMinutes = ({gatewayApi}: TxsByMinutesProps) => {
   const [loading, setLoading] = useState(true); // État de chargement
 
   // Fonction pour regrouper les transactions par minute et éviter les doublons
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const processTransactions = (transactions: CommittedTransactionInfo[]) => {
     const updatedTransactionsByMinute = {...transactionsByMinute};
     const newProcessedHashes = new Set(processedHashes); // Copier les hashes existants pour mise à jour
@@ -63,7 +64,7 @@ export const TxsByMinutes = ({gatewayApi}: TxsByMinutesProps) => {
     }, 5000);
 
     return () => clearInterval(interval); // Nettoyer l'intervalle à la fin du composant
-  }, [transactionsByMinute, processedHashes]);
+  }, [transactionsByMinute, processedHashes, data.length, gatewayApi.stream, processTransactions]);
 
   // Affichage du graphique
   return (
