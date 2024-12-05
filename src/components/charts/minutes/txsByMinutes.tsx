@@ -9,47 +9,48 @@ interface TxsByMinutesProps {
 }
 
 export const TxsByMinutes = ({gatewayApi}: TxsByMinutesProps) => {
-  const [data, setData] = useState<{ time: string; count: number }[]>([]); // Données pour le graphique
+  const [data, setData] = useState<{ time: string; count: number }[]>([]);
   const [transactionsByMinute, setTransactionsByMinute] = useState<Record<number, number>>({});
-  const [processedHashes, setProcessedHashes] = useState<Set<string>>(new Set()); // Hashes déjà traités
-  const [loading, setLoading] = useState(true); // État de chargement
+  const [processedHashes, setProcessedHashes] = useState<Set<string>>(new Set());
+  const [loading, setLoading] = useState(true);
 
-  // Fonction pour regrouper les transactions par minute et éviter les doublons
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const processTransactions = (transactions: CommittedTransactionInfo[]) => {
     const updatedTransactionsByMinute = {...transactionsByMinute};
-    const newProcessedHashes = new Set(processedHashes); // Copier les hashes existants pour mise à jour
+    const newProcessedHashes = new Set(processedHashes);
 
     // Ajouter les transactions sans doublon
     transactions.forEach((tx) => {
       if (!newProcessedHashes.has(tx.intent_hash!)) {
         const timestamp = new Date(tx.round_timestamp).getTime();
-        const minuteKey = Math.floor(timestamp / 60000); // Regrouper par minute
+        const minuteKey = Math.floor(timestamp / 60000);
 
         if (!updatedTransactionsByMinute[minuteKey]) {
           updatedTransactionsByMinute[minuteKey] = 0;
         }
 
         updatedTransactionsByMinute[minuteKey]++;
-        newProcessedHashes.add(tx.intent_hash!); // Marquer cette transaction comme traitée
+        newProcessedHashes.add(tx.intent_hash!);
       }
     });
 
     setTransactionsByMinute(updatedTransactionsByMinute);
-    setProcessedHashes(newProcessedHashes); // Sauvegarder les hashes traités
+    setProcessedHashes(newProcessedHashes);
 
-    // Convertir pour le graphique
+    const currentTimestamp = Date.now();
+    const thirtyMinutesAgo = Math.floor(currentTimestamp / 60000) - 30;
+
     const updatedData = Object.keys(updatedTransactionsByMinute)
-      .sort((a, b) => Number(a) - Number(b)) // Trier par minute
+      .sort((a, b) => Number(a) - Number(b))
+      .filter((key) => Number(key) >= thirtyMinutesAgo)
       .map((key) => ({
-        time: new Date(Number(key) * 60000).toLocaleTimeString(), // Heure lisible par minute
+        time: new Date(Number(key) * 60000).toLocaleTimeString(),
         count: updatedTransactionsByMinute[Number(key)],
       }));
 
     setData(updatedData);
   };
 
-  // Fonction pour récupérer les transactions toutes les 5 secondes
   useEffect(() => {
     if (data.length > 0) {
       setLoading(false)
@@ -66,7 +67,6 @@ export const TxsByMinutes = ({gatewayApi}: TxsByMinutesProps) => {
     return () => clearInterval(interval); // Nettoyer l'intervalle à la fin du composant
   }, [transactionsByMinute, processedHashes, data.length, gatewayApi.stream, processTransactions]);
 
-  // Affichage du graphique
   return (
     <div className={styles.container}>
       <h2>Txs By Minutes</h2>
